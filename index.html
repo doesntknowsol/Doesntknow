@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wojak Doesn’t Know</title>
+<meta name="description" content="Wojak Doesn’t Know — They don’t know we’re early. Parody. Not financial advice." />
+<style>
+  :root{
+    --bg:#000; --ink:#fff; --muted:#aaa; --shadow:#fff2;
+    --accent:#12c96a; --accent2:#ef6ac1;
+    --label-img:url('wojack-coin.png'); /* vinyl center label */
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0; font-family:Arial, Helvetica, sans-serif; color:var(--ink); background:var(--bg)}
+  body{
+    background-image:
+      repeating-linear-gradient(0deg,#fff1 0 2px,transparent 2px 4px),
+      repeating-linear-gradient(90deg,#fff1 0 2px,transparent 2px 4px);
+    background-size:8px 8px;
+  }
+
+  /* HEADER */
+  header{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px; background:#111; border-bottom:3px solid var(--ink);
+    position:sticky; top:0; z-index:10;
+  }
+  .logo{width:36px; height:36px; border-radius:50%; overflow:hidden; border:2px solid var(--ink)}
+  .logo img{width:100%; height:100%; object-fit:cover}
+  .title{display:flex; flex-direction:column; line-height:1.05}
+  .badge{align-self:flex-start; padding:2px 9px; font-size:12px; border:2px solid var(--ink); border-radius:999px; background:#000; margin-bottom:4px}
+  h1{margin:0; font-size:20px; font-weight:900}
+
+  /* HERO (big splash) */
+  .hero{
+    position:relative; width:100%;
+    min-height:70vh;               /* take up most of the screen */
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:24px; background:#111; border-bottom:3px solid var(--ink);
+  }
+  .hero img{
+    width:auto; max-width:95%; max-height:70vh; object-fit:contain;
+    background:#000; border:2px solid var(--ink); border-radius:12px; box-shadow:6px 6px 0 var(--shadow);
+  }
+  .ctaWrap{margin-top:18px; display:flex; gap:14px; flex-wrap:wrap; justify-content:center}
+  .btn{border:2px solid var(--ink); border-radius:10px; font-weight:800; font-size:15px; padding:10px 14px; background:#000; text-decoration:none; color:var(--ink); box-shadow:3px 3px 0 var(--shadow); cursor:pointer; transition:transform .08s, box-shadow .08s}
+  .btn:hover{transform:translateY(-2px); box-shadow:4px 4px 0 #fff5}
+  .btn.primary{background:#12c96a; color:#000}
+  .btn.secondary{background:#ef6ac1; color:#000}
+
+  /* LORE */
+  main{padding-inline:10px}
+  .lore{
+    max-width:900px; margin:32px auto; background:#111; border:3px solid var(--ink);
+    border-radius:14px; padding:24px; box-shadow:6px 6px 0 var(--shadow)
+  }
+  .lore h2{margin:0 0 14px; font-size:24px; font-weight:900; text-align:center}
+  .timeline{display:grid; gap:20px}
+  .row{display:grid; grid-template-columns:90px 1fr; gap:14px; align-items:start}
+  .year{font-weight:900; border:2px solid var(--ink); border-radius:999px; padding:6px 10px; background:#000; text-align:center}
+  .text{line-height:1.55; font-size:16px}
+  .highlight{font-weight:900}
+  .muted{color:var(--muted); font-style:italic}
+
+  /* RECORDS */
+  .records{
+    max-width:1100px; margin:26px auto; padding:18px; background:#111; border:3px solid var(--ink);
+    border-radius:14px; box-shadow:6px 6px 0 var(--shadow)
+  }
+  .records h2{margin:0 0 12px; font-size:24px; font-weight:900; text-align:center}
+  .shelf{margin-top:12px; display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:22px}
+  .lp{display:grid; grid-template-columns:160px 1fr; gap:16px; align-items:center; padding:16px; border:2px solid var(--ink); border-radius:14px; background:#000; box-shadow:6px 6px 0 var(--shadow)}
+  .lp .inner{border:2px dashed var(--ink); border-radius:12px; padding:12px}
+  .lp h3{margin:.2rem 0 .4rem; font-size:20px}
+  .sub{margin:0 0 .6rem; color:var(--muted)}
+  .controls{display:flex; gap:10px; flex-wrap:wrap}
+  .pill{border:2px solid var(--ink); background:#000; padding:9px 14px; border-radius:999px; font-weight:800; cursor:pointer; color:var(--ink); box-shadow:3px 3px 0 var(--shadow)}
+  .pill.primary{background:#12c96a; color:#000}
+  .pill.secondary{background:#ef6ac1; color:#000}
+
+  /* VINYL + coin label */
+  .record{
+    width:160px; height:160px; border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,
+      #111 0 52%, #222 52.2% 55%, #111 55.2% 58%, #222 58.2% 61%,
+      #111 61.2% 64%, #222 64.2% 67%, #111 67.2% 70%, #222 70.2% 100%), #000;
+    box-shadow:inset 0 0 0 2px #fff, inset 0 0 24px #000, 0 8px 16px #0009;
+    position:relative; display:grid; place-items:center; overflow:hidden;
+  }
+  .record .label{
+    width:60px; height:60px; border-radius:50%;
+    background:var(--label-img) center/cover no-repeat, radial-gradient(circle at 40% 40%, #eee, #fff 60%, #bbb);
+    border:2px solid #000; box-shadow:inset 0 0 10px #0008;
+  }
+  .lp[data-track="B"] .record .label{filter:hue-rotate(20deg) saturate(1.1)}
+  .spinning{animation:spin 1.2s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* FOOTER */
+  footer{padding:14px; text-align:center; font-weight:600; font-size:14px; border-top:2px solid var(--ink); background:#111; color:var(--muted); margin-top:30px}
+
+  /* MOBILE */
+  @media (max-width:600px){
+    .hero{min-height:60vh}
+    .hero img{max-height:60vh}
+    .lp{grid-template-columns:140px 1fr}
+    .record{width:140px; height:140px}
+    .record .label{width:54px; height:54px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><img id="coinImg" alt="Coin logo"></div>
+  <div class="title">
+    <span class="badge" id="tickerBadge">$WJK • They Don’t Know</span>
+    <h1 id="siteTitle">Wojak Doesn’t Know</h1>
+  </div>
+</header>
+
+<!-- HERO TRUCK POSTER -->
+<section class="hero" aria-label="Wojak Truck Meme">
+  <img id="posterImg" alt="Wojak Truck Meme Poster">
+  <div class="ctaWrap">
+    <a id="btnBuy" class="btn primary" target="_blank" rel="noopener">Buy on Pump.fun</a>
+    <a id="btnX" class="btn secondary" target="_blank" rel="noopener">Follow on X</a>
+    <button id="btnCA" class="btn" type="button">Copy Contract</button>
+  </div>
+</section>
+
+<main>
+  <!-- LORE -->
+  <section class="lore" aria-label="Lore timeline">
+    <h2>The Lore</h2>
+    <div class="timeline">
+      <div class="row">
+        <div class="year">2004</div>
+        <div class="text"><span class="highlight">Scottie doesn’t know.</span> A cult-classic moment where everyone is in on the joke except Scottie. <span class="muted">He was the last to find out.</span></div>
+      </div>
+      <div class="row">
+        <div class="year">2025</div>
+        <div class="text"><span class="highlight">Wojak doesn’t know.</span> The meme evolves: crypto apes are early, Wojak finds out late. <span class="muted">Don’t tell him…</span></div>
+      </div>
+      <div class="row">
+        <div class="year">Now</div>
+        <div class="text"><span class="highlight">The community knows.</span> Share the meme, not the alpha. Rally behind <strong>#WojakDoesntKnow</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECORDS -->
+  <section class="records" aria-label="Record shelf">
+    <h2>Records</h2>
+    <div class="shelf">
+      <article class="lp" data-track="A">
+        <div class="record"><div class="label" aria-hidden="true"></div></div>
+        <div class="inner">
+          <h3>2004 — “Scottie Doesn’t Know”</h3>
+          <p class="sub">Origin story. Everyone’s in on it… except Scottie.</p>
+          <div class="controls">
+            <button class="pill primary js-play">Play / Pause</button>
+            <button class="pill secondary js-spin">Spin Vinyl</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="lp" data-track="B">
+        <div class="record"><div class="label" aria-hidden="true"></div></div>
+        <div class="inner">
+          <h3>2025 — “Wojak Doesn’t Know”</h3>
+          <p class="sub">Synth-coded future. We’re early. He isn’t.</p>
+          <div class="controls">
+            <button class="pill primary js-play">Play / Pause</button>
+            <button class="pill secondary js-spin">Spin Vinyl</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2025 <strong>Wojak Doesn’t Know</strong> — Parody. Not financial advice.
+</footer>
+
+<script>
+  /* ===== CONFIG ===== */
+  const CONFIG = {
+    name:"Wojak Doesn’t Know",
+    ticker:"$WJK",
+    ca:"YOUR_CONTRACT_ADDRESS_HERE",
+    pumpfun:"https://pump.fun/coin/YOUR_CONTRACT_ADDRESS_HERE",
+    twitter:"https://x.com/WJKSol",
+    coinImage:"wojack-coin.png",           // coin logo file
+    posterImage:"banner.png"  // truck meme file
+  };
+
+  // Apply config
+  siteTitle.textContent = CONFIG.name;
+  tickerBadge.textContent = `${CONFIG.ticker} • They Don’t Know`;
+  document.getElementById('coinImg').src = CONFIG.coinImage;
+  document.getElementById('posterImg').src = CONFIG.posterImage;
+  btnBuy.href = CONFIG.pumpfun; btnX.href = CONFIG.twitter;
+
+  // Copy CA
+  btnCA.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(CONFIG.ca);
+      const old = btnCA.textContent; btnCA.textContent = 'Copied ✓';
+      setTimeout(()=> btnCA.textContent = old, 1200);
+    } catch { alert(CONFIG.ca); }
+  });
+
+  /* ===== MUSIC (Web Audio API) ===== */
+  let audioCtx;
+  const tracks = {}; // {A:{playing,stop()}, B:{...}}
+
+  async function ensureCtx(){
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') await audioCtx.resume();
+    return audioCtx;
+  }
+  const now = () => audioCtx.currentTime;
+
+  // Helpers
+  function env(len=0.2, peak=1){
+    const g = audioCtx.createGain();
+    g.gain.setValueAtTime(0, now());
+    g.gain.linearRampToValueAtTime(peak, now()+0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, now()+len);
+    return g;
+  }
+  function osc(f,type='sine',det=0){ const o=audioCtx.createOscillator(); o.type=type; o.frequency.setValueAtTime(f, now()); o.detune.value=det; return o; }
+  function noise(){ const b=audioCtx.createBuffer(1, audioCtx.sampleRate, audioCtx.sampleRate); const d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; const n=audioCtx.createBufferSource(); n.buffer=b; n.loop=true; return n; }
+  function kick(t=now(), len=0.5){ const g=env(len,1.2); const o=osc(120,'sine'); o.frequency.exponentialRampToValueAtTime(40, t+len); o.connect(g).connect(audioCtx.destination); o.start(t); o.stop(t+len); }
+  function snare(t=now(), len=0.12){ const g=env(len,0.6); const n=noise(); const bp=audioCtx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1800; bp.Q.value=1.2; n.connect(bp).connect(g).connect(audioCtx.destination); n.start(t); n.stop(t+len); }
+  function hat(t=now(), len=0.05){ const g=env(len,0.25); const n=noise(); const hp=audioCtx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=6000; n.connect(hp).connect(g).connect(audioCtx.destination); n.start(t); n.stop(t+len); }
+
+  function makeTrackA(){ // 140 BPM pop-punk-ish
+    const bpm=140, spb=60/bpm, step=spb/2; let i=0; const root=110; const seq=[0,0,5,5,7,7,5,5];
+    const timer = setInterval(()=>{
+      const t=now()+0.02, pos=i%8;
+      if (pos===0||pos===4) kick(t);
+      if (pos===2||pos===5||pos===6) hat(t,0.04);
+      if (pos===3) snare(t);
+      if (pos%2===0){ // chords
+        const g=env(spb*0.9,0.35);
+        const o1=osc(root*Math.pow(2, seq[i%seq.length]/12),'sawtooth');
+        const o2=osc(root*2*Math.pow(2, seq[i%seq.length]/12),'sawtooth',7);
+        const lp=audioCtx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1800;
+        o1.connect(g); o2.connect(g); g.connect(lp).connect(audioCtx.destination);
+        o1.start(t); o2.start(t); o1.stop(t+spb); o2.stop(t+spb);
+      }
+      i++;
+    }, step*1000);
+    return { stop(){ clearInterval(timer); } };
+  }
+
+  function makeTrackB(){ // 95 BPM synthwave-ish
+    const bpm=95, spb=60/bpm, step=spb/2; let i=0; const base=55, scale=[0,3,7,10];
+    // pad
+    const padG=audioCtx.createGain(); padG.gain.value=0.08;
+    const f=audioCtx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=800;
+    const p1=osc(220,'sawtooth'), p2=osc(330,'sawtooth',-5); p1.connect(f); p2.connect(f); f.connect(padG).connect(audioCtx.destination); p1.start(); p2.start();
+    const lfo=osc(0.2,'sine'); const lfoG=audioCtx.createGain(); lfoG.gain.value=200; lfo.connect(lfoG).connect(f.frequency); lfo.start();
+
+    const timer = setInterval(()=>{
+      const t=now()+0.02, pos=i%16;
+      if (pos%4===0) kick(t,0.25);
+      if (pos===4||pos===12) snare(t,0.1);
+      hat(t,0.03);
+      if (pos%4===0){
+        const deg=scale[(pos/4)%scale.length]; const f0=base*Math.pow(2,deg/12);
+        const g=env(spb*0.9,0.28); const b=osc(f0,'square'); const lp=audioCtx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=900;
+        b.connect(g).connect(lp).connect(audioCtx.destination); b.start(t); b.stop(t+spb);
+        const o2=osc(f0*1.5,'square'); const g2=env(0.12,0.18); o2.connect(g2).connect(lp).connect(audioCtx.destination); o2.start(t+step*0.75); o2.stop(t+step*0.75+0.12);
+      }
+      i++;
+    }, step*1000);
+    return { stop(){ clearInterval(timer); try{p1.stop(); p2.stop(); lfo.stop();}catch(e){} } };
+  }
+
+  async function togglePlay(article){
+    await ensureCtx();
+    const id = article.getAttribute('data-track');
+    const rec = article.querySelector('.record');
+    const btn = article.querySelector('.js-play');
+
+    // stop if this track is already playing
+    if (tracks[id]?.playing){
+      tracks[id].stop(); tracks[id]={playing:false};
+      rec.classList.remove('spinning'); btn.textContent='Play / Pause';
+      return;
+    }
+    // stop any other (one-at-a-time)
+    Object.keys(tracks).forEach(k=>{
+      if (tracks[k]?.playing){
+        tracks[k].stop(); tracks[k]={playing:false};
+        const r=document.querySelector(`.lp[data-track="${k}"] .record`);
+        const b=document.querySelector(`.lp[data-track="${k}"] .js-play`);
+        r?.classList.remove('spinning'); if (b) b.textContent='Play / Pause';
+      }
+    });
+
+    const handle = (id==='A') ? makeTrackA() : makeTrackB();
+    tracks[id] = { playing:true, stop:handle.stop };
+    rec.classList.add('spinning'); btn.textContent='Pause';
+  }
+
+  // Bind controls
+  document.querySelectorAll('.lp').forEach(lp=>{
+    const rec = lp.querySelector('.record');
+    lp.querySelector('.js-play').addEventListener('click', ()=> togglePlay(lp));
+    lp.querySelector('.js-spin').addEventListener('click', ()=> rec.classList.toggle('spinning'));
+  });
+</script>
+</body>
+</html>
